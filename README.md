@@ -24,7 +24,7 @@ This application is built from scratch with Intellij Idea 2020.2 Ultimate. You c
 
 ## Hierarchy and business
 
-In the top level directory of the project you find the main repository _microservices-demo-master_. This directory contain the main maven project called _back_ which contains 2 modules : 
+In the top level directory of the project you find the main repository _microservices-demo_. This directory contain the main maven project called _back_ which contains 2 modules : 
 
  1. model: contains the model classes representing the business entities of the project.
  2. services: contains the 3 services built for the application
