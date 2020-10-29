@@ -23,6 +23,7 @@
     </properties>
 
     <modules>
+        <module>back-test</module>
         <module>model</module>
         <module>services</module>
     </modules>
