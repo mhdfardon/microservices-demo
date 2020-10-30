@@ -1,5 +1,8 @@
 package com.microservices.demo.services.user.service;
 
+import com.microservices.demo.model.dto.UserDTO;
+import com.microservices.demo.model.user.User;
+
 public interface UserService {
 
     String encrypt(String value);
@@ -7,6 +10,8 @@ public interface UserService {
     String decrypt(String value);
 
     String getCipherKey();
+
+    UserDTO convertUser(User user);
 
     String encodeBase64(String encodedStr);
 

@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertEquals;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {UserServiceApplication.class})
 @ComponentScan(basePackageClasses = {UserServiceApplication.class})
@@ -30,7 +29,7 @@ public class UserServiceTest {
     private static final String DECRYPTED_MPD = "D3moadmin/";
 
     @Mock
-    AESCipherConfig aesCipherConfig;// = new AESCipherConfig();
+    AESCipherConfig aesCipherConfig;
 
     @InjectMocks
     private UserService userService = new UserServiceImpl();
