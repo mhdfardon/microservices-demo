@@ -1,4 +1,4 @@
-package com.microservices.demo.services.user.security.config;
+package com.microservices.demo.services.user.cipher.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

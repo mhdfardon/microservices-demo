@@ -1,7 +1,7 @@
 package com.microservices.demo.services.user.test;
 
 import com.microservices.demo.services.user.UserServiceApplication;
-import com.microservices.demo.services.user.security.config.AESCipherConfig;
+import com.microservices.demo.services.user.cipher.config.AESCipherConfig;
 import com.microservices.demo.services.user.service.UserService;
 import com.microservices.demo.services.user.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;

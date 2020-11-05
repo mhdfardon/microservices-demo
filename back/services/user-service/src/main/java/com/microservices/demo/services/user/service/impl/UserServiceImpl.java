@@ -2,7 +2,7 @@ package com.microservices.demo.services.user.service.impl;
 
 import com.microservices.demo.model.dto.UserDTO;
 import com.microservices.demo.model.user.User;
-import com.microservices.demo.services.user.security.config.AESCipherConfig;
+import com.microservices.demo.services.user.cipher.config.AESCipherConfig;
 import com.microservices.demo.services.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;

@@ -18,9 +18,9 @@ class DatabaseLoader {
     CommandLineRunner init(UserRepository repository) {
 
         return args -> {
-            repository.save(new User("John", userService.encrypt("pass1"), "john@gmail.com", "ROLE_USER"));
-            repository.save(new User("Sophie", userService.encrypt("pass02"), "sohpie@gmail.com", "ROLE_ADMIN"));
-            repository.save(new User("Julien", userService.encrypt("pass03"), "julien@gmail.com", "ROLE_USER"));
+            repository.save(new User("john", userService.encrypt("pass"), "john@gmail.com", "ROLE_USER"));
+            repository.save(new User("sophie", userService.encrypt("pass"), "sohpie@gmail.com", "ROLE_ADMIN"));
+            repository.save(new User("julien", userService.encrypt("pass"), "julien@gmail.com", "ROLE_USER"));
         };
     }
 
