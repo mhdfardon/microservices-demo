@@ -1,7 +1,8 @@
 package com.microservices.demo.services.product.controller;
 
-import com.microservices.demo.model.product.Product;
+import com.microservices.demo.model.Product;
 import com.microservices.demo.services.product.dao.ProductRepository;
+import com.microservices.demo.services.user.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,9 @@ public class ProductController {
     @Autowired
     private ProductRepository productRespository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/findByProductId")
     public Product findByProductId(@RequestParam() long id) {
         return productRespository.findById(id).get();
@@ -22,6 +26,8 @@ public class ProductController {
 
     @GetMapping("/allProducts")
     public List<Product> findAllProducts() {
+
+        //List<User> users = userRepository.findAll();
         List<Product> products = new ArrayList<>();
         productRespository.findAll().forEach(products::add);
         return products;

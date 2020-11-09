@@ -24,13 +24,13 @@
     <dependencies>
         <dependency>
             <groupId>com.microservices.demo</groupId>
-            <artifactId>back-test</artifactId>
+            <artifactId>common-service</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.microservices.demo</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>back-test</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -48,7 +48,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>

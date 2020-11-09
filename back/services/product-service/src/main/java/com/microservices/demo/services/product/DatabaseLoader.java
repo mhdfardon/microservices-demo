@@ -1,9 +1,7 @@
 package com.microservices.demo.services.product;
 
-import com.microservices.demo.model.product.Product;
-import com.microservices.demo.model.user.User;
+import com.microservices.demo.model.Product;
 import com.microservices.demo.services.product.dao.ProductRepository;
-import com.microservices.demo.services.product.dao.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

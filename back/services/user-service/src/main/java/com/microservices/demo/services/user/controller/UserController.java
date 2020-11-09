@@ -1,7 +1,7 @@
 package com.microservices.demo.services.user.controller;
 
 import com.microservices.demo.model.dto.UserDTO;
-import com.microservices.demo.model.user.User;
+import com.microservices.demo.model.User;
 import com.microservices.demo.services.user.dao.UserRepository;
 import com.microservices.demo.services.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

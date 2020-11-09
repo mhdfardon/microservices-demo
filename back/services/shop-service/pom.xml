@@ -16,6 +16,14 @@
         <start-class>com.microservices.demo.services.shop.ShopServiceApplication</start-class>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -24,5 +32,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

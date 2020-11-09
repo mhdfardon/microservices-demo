@@ -1,6 +1,6 @@
 package com.microservices.demo.services.user;
 
-import com.microservices.demo.model.user.User;
+import com.microservices.demo.model.User;
 import com.microservices.demo.services.user.dao.UserRepository;
 import com.microservices.demo.services.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

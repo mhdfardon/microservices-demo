@@ -1,7 +1,7 @@
 package com.microservices.demo.services.user.service.impl;
 
-import com.microservices.demo.model.dto.UserDTO;
 import com.microservices.demo.model.User;
+import com.microservices.demo.model.dto.UserDTO;
 import com.microservices.demo.services.config.AESCipherConfig;
 import com.microservices.demo.services.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;

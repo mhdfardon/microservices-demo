@@ -1,7 +1,7 @@
 package com.microservices.demo.services.user.service;
 
-import com.microservices.demo.model.dto.UserDTO;
 import com.microservices.demo.model.User;
+import com.microservices.demo.model.dto.UserDTO;
 
 public interface UserService {
 

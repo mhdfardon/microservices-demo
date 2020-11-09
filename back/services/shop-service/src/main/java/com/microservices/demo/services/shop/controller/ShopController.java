@@ -1,11 +1,19 @@
 package com.microservices.demo.services.shop.controller;
 
-import com.microservices.demo.model.product.Product;
-import com.microservices.demo.model.user.User;
+import com.microservices.demo.model.Product;
+import com.microservices.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Base64;
+import java.util.List;
 
 @RestController
 @RequestMapping("/shop")
@@ -32,6 +40,18 @@ public class ShopController {
         return product;
     }
 
+    @GetMapping("/allUsers")
+    public List<User> findAllUsers() {
+
+
+        String url = "http://localhost:8082/users/allUsers";
+        HttpEntity request = createRequest();
+//        ResponseEntity<List> users = restTemplate().exchange(url, HttpMethod.GET, request, List.class);
+        ResponseEntity<List<User>> users = new RestTemplate().exchange(url, HttpMethod.GET,
+                request, new ParameterizedTypeReference<List<User>>() {});
+        return users.getBody();
+    }
+
     @GetMapping("/createProduct")
     public String create(@RequestParam String userid, @RequestParam String name, @RequestParam String description, @RequestParam Double price) {
 
@@ -48,6 +68,15 @@ public class ShopController {
         }catch (Exception e) {
             return "ERROR : " + e.getMessage();
         }
+    }
+
+    private HttpEntity createRequest() {
+        String authStr = "sophie:pass";
+        String base64Creds = Base64.getEncoder().encodeToString(authStr.getBytes());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Basic " + base64Creds);
+        HttpEntity request = new HttpEntity(headers);
+        return request;
     }
 
 }
