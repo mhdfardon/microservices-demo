@@ -3,6 +3,7 @@ package com.microservices.demo.services.product.controller;
 import com.microservices.demo.model.Product;
 import com.microservices.demo.services.product.dao.ProductRepository;
 import com.microservices.demo.services.user.dao.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@Slf4j
 public class ProductController {
 
     @Autowired
@@ -30,6 +32,7 @@ public class ProductController {
         //List<User> users = userRepository.findAll();
         List<Product> products = new ArrayList<>();
         productRespository.findAll().forEach(products::add);
+        log.info("Found " + products.size() + " products");
         return products;
     }
 

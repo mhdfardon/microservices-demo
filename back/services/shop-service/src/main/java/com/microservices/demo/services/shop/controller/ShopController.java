@@ -2,6 +2,7 @@ package com.microservices.demo.services.shop.controller;
 
 import com.microservices.demo.model.Product;
 import com.microservices.demo.model.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/shop")
+@Slf4j
 public class ShopController {
 
     @Value("${user.service.uri}")
@@ -49,6 +51,7 @@ public class ShopController {
 //        ResponseEntity<List> users = restTemplate().exchange(url, HttpMethod.GET, request, List.class);
         ResponseEntity<List<User>> users = new RestTemplate().exchange(url, HttpMethod.GET,
                 request, new ParameterizedTypeReference<List<User>>() {});
+        log.info("Found " + users.getBody().size() + " users");
         return users.getBody();
     }
 

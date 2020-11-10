@@ -4,7 +4,7 @@ import com.microservices.demo.model.User;
 import com.microservices.demo.model.dto.UserDTO;
 import com.microservices.demo.services.config.AESCipherConfig;
 import com.microservices.demo.services.user.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.Charset;
 import java.security.Security;
 
-@Slf4j
+@Log4j2
 @Service
 public class UserServiceImpl implements UserService {
 

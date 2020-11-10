@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 
 @Configuration
-public class CommonSecurityConfig {//extends WebSecurityConfigurerAdapter {
+public class CommonSecurityConfig {
 
     @Autowired
     private CustomUserDetailsService userDetailsService;

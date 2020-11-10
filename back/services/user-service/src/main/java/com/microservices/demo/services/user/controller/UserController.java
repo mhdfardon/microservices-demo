@@ -4,6 +4,7 @@ import com.microservices.demo.model.dto.UserDTO;
 import com.microservices.demo.model.User;
 import com.microservices.demo.services.user.dao.UserRepository;
 import com.microservices.demo.services.user.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -24,6 +26,7 @@ public class UserController {
     public List<User> findAllUsers() {
         final List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(users::add);
+        log.info("Found " + users.size() + " users");
         return users;
     }
 
