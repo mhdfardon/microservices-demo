@@ -1,14 +1,16 @@
 package com.microservices.demo.services.user.controller;
 
-import com.microservices.demo.model.dto.UserDTO;
 import com.microservices.demo.model.User;
 import com.microservices.demo.services.user.dao.UserRepository;
 import com.microservices.demo.services.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,17 +25,49 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/allUsers")
-    public List<User> findAllUsers() {
-        final List<User> users = new ArrayList<>();
-        userRepository.findAll().forEach(users::add);
+    public Flux<User> findAllUsers() {
+        final List<User> users = userRepository.findAll();
+        users.forEach(user -> user.setPassword(userService.decrypt(user.getPassword())));
         log.info("Found " + users.size() + " users");
-        return users;
+        return Flux.fromIterable(users);
+    }
+
+    @GetMapping("/allUsers2")
+    public Mono<ResponseEntity<Flux<User>>> findAllUsers2() {
+        final List<User> users = userRepository.findAll();
+        users.forEach(user -> user.setPassword(userService.decrypt(user.getPassword())));
+        log.info("Found " + users.size() + " users");
+        return Flux.fromIterable(users)
+                .collectList()
+                .map(body -> new ResponseEntity<>(Flux.fromIterable(body), HttpStatus.OK));
+    }
+
+    @GetMapping("/allUsers3")
+    public Mono<ResponseEntity<List<User>>> findAllUsers3() {
+        final List<User> users = userRepository.findAll();
+        users.forEach(user -> user.setPassword(userService.decrypt(user.getPassword())));
+        log.info("Found " + users.size() + " users");
+        return Flux.fromIterable(users)
+                .collectList()
+                .map(body -> new ResponseEntity<>(body, HttpStatus.OK));
     }
 
     @GetMapping("/findByUserId")
-    public UserDTO findByUserId(@RequestParam long id) {
+    public Mono<User> findByUserId(@RequestParam long id) {
         User user = userRepository.findById(id).get();
-        return userService.convertUser(user);
+        user.setPassword(userService.decrypt(user.getPassword()));
+        return Mono.just(user);
+    }
+
+    @GetMapping("/user/{username}")
+    public Mono<ResponseEntity<User>> getUserByName(@PathVariable("username") String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            user.setPassword(userService.decrypt(user.getPassword()));
+        }
+
+        return Mono.just(new ResponseEntity<>(user, HttpStatus.OK))
+                .switchIfEmpty(Mono.just(new ResponseEntity<>(null, HttpStatus.NOT_FOUND)));
     }
 
 

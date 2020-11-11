@@ -12,13 +12,11 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class User {
 
-//    @JsonIgnore
     @Id @GeneratedValue
     private Long id;
 
     private String username;
 
-//    @JsonIgnore
     private String password;
     private String email;
     private String role;

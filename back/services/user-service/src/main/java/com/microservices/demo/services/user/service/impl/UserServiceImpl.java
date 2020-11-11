@@ -1,7 +1,5 @@
 package com.microservices.demo.services.user.service.impl;
 
-import com.microservices.demo.model.dto.UserDTO;
-import com.microservices.demo.model.User;
 import com.microservices.demo.services.config.AESCipherConfig;
 import com.microservices.demo.services.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -50,12 +48,6 @@ public class UserServiceImpl implements UserService {
 
     public String getCipherKey() {
         return aesCipherConfig.getAesKey();
-    }
-
-    public UserDTO convertUser(User user) {
-        String decryptedPassword = decrypt(user.getPassword());
-        UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), decryptedPassword, user.getEmail(), user.getRole());
-        return userDTO;
     }
 
     private SecretKeySpec getSecretKey() {

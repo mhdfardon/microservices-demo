@@ -1,11 +1,16 @@
 package com.microservices.demo.services.product.controller;
 
 import com.microservices.demo.model.Product;
+import com.microservices.demo.model.User;
 import com.microservices.demo.services.product.dao.ProductRepository;
 import com.microservices.demo.services.user.dao.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,18 +27,22 @@ public class ProductController {
     private UserRepository userRepository;
 
     @GetMapping("/findByProductId")
-    public Product findByProductId(@RequestParam() long id) {
-        return productRespository.findById(id).get();
+    public Mono<ResponseEntity<Product>> findByProductId(@RequestParam() long id) {
+        Product product = productRespository.findById(id).get();
+        if (product != null) {
+            return Mono.just(new ResponseEntity<>(product, HttpStatus.OK));
+        }
+        return Mono.just(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/allProducts")
-    public List<Product> findAllProducts() {
+    public Mono<ResponseEntity<Flux<Product>>> findAllProducts() {
 
-        //List<User> users = userRepository.findAll();
-        List<Product> products = new ArrayList<>();
-        productRespository.findAll().forEach(products::add);
+        List<Product> products = productRespository.findAll();
         log.info("Found " + products.size() + " products");
-        return products;
+        return Flux.fromIterable(products)
+                .collectList()
+                .map(body -> new ResponseEntity<>(Flux.fromIterable(body), HttpStatus.OK));
     }
 
     @GetMapping(value = "/create")
