@@ -1,15 +1,15 @@
 package com.microservices.demo.services.security;
 
 import com.microservices.demo.model.User;
-import com.microservices.demo.services.user.dao.UserRepository;
-import com.microservices.demo.services.user.service.UserService;
+import com.microservices.demo.services.dao.UserRepository;
+import com.microservices.demo.services.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
+//@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) {
-        final User User = userRepository.findByUsername(username);
+        final User User = userRepository.findByUsername(username).block();
         if (User == null) {
             throw new UsernameNotFoundException(username);
         }

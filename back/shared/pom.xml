@@ -16,6 +16,4 @@
         <module>model</module>
         <module>common-service</module>
     </modules>
-
-
 </project>

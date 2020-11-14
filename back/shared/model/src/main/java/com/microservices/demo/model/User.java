@@ -2,17 +2,18 @@ package com.microservices.demo.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
+@Table
 public class User {
 
-    @Id @GeneratedValue
+//    @GeneratedValue
+    @Id
     private Long id;
 
     private String username;

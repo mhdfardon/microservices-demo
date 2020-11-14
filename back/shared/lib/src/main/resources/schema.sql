@@ -1,0 +1,2 @@
+CREATE TABLE product (id SERIAL PRIMARY KEY, name VARCHAR(255), description VARCHAR(255), price DOUBLE (255));
+CREATE TABLE user (id SERIAL PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), email VARCHAR(255), role VARCHAR(255));

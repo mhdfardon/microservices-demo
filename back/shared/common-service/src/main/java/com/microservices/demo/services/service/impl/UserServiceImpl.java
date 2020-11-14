@@ -1,13 +1,13 @@
-package com.microservices.demo.services.user.service.impl;
+package com.microservices.demo.services.service.impl;
 
 import com.microservices.demo.model.User;
-import com.microservices.demo.model.dto.UserDTO;
 import com.microservices.demo.services.config.AESCipherConfig;
-import com.microservices.demo.services.user.service.UserService;
+import com.microservices.demo.services.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -21,6 +21,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     AESCipherConfig aesCipherConfig;
 
+    public void decryptUserPassword(User user) {
+        user.setPassword(decrypt(user.getPassword()));
+    }
     public String encrypt(String value) {
         try {
             SecretKeySpec secretKey = getSecretKey();
@@ -52,12 +55,6 @@ public class UserServiceImpl implements UserService {
         return aesCipherConfig.getAesKey();
     }
 
-    public UserDTO convertUser(User user) {
-        String decryptedPassword = decrypt(user.getPassword());
-        UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), decryptedPassword, user.getEmail(), user.getRole());
-        return userDTO;
-    }
-
     private SecretKeySpec getSecretKey() {
         String cipherKey = getCipherKey();
         SecretKeySpec secretKey = new SecretKeySpec(cipherKey.getBytes(Charset.forName("UTF-8")), "AES");
@@ -71,5 +68,14 @@ public class UserServiceImpl implements UserService {
     public String decodeBase64(String decodedStr) {
         byte[] decodedByteArr = decodedStr.getBytes(Charset.forName("UTF-8"));
         return new String(Base64.decodeBase64(decodedByteArr));
+    }
+
+    @Override
+    public Mono<User> decryptUser(Mono<User> user) {
+        return user.map( t -> new User(
+                t.getUsername(),
+                decrypt(t.getPassword()),
+                t.getEmail(),
+                t.getRole()));
     }
 }

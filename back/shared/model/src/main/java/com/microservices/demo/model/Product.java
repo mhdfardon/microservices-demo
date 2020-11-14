@@ -2,23 +2,21 @@ package com.microservices.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table
 public class Product {
 
     @JsonIgnore
+//    @GeneratedValue
     @Id
-    @GeneratedValue
     private Long id;
 
     private String name;

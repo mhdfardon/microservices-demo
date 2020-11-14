@@ -1,7 +1,7 @@
 package com.microservices.demo.services.security;
 
 import com.microservices.demo.model.User;
-import com.microservices.demo.services.user.service.UserService;
+import com.microservices.demo.services.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

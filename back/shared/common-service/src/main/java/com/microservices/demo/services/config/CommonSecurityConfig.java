@@ -1,37 +1,38 @@
 package com.microservices.demo.services.config;
 
-import com.microservices.demo.services.security.CustomUserDetailsService;
+import com.microservices.demo.services.dao.UserRepository;
+import com.microservices.demo.services.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 
 @Configuration
 public class CommonSecurityConfig {
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private UserService userService;
 
     @Bean
     public PasswordEncoder encoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-
-        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(encoder());
-        return authProvider;
-    }
-
-    @Bean
-    public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
-        return new SecurityEvaluationContextExtension();
+    public ReactiveUserDetailsService userDetailsService(UserRepository userRepository) {
+        return (username) -> userRepository.findByUsername(username)
+                .map(u -> User.withUsername(u.getUsername())
+                        .password("{noop}" + userService.decrypt(u.getPassword()))
+                        .authorities(new SimpleGrantedAuthority(u.getRole()))
+                        .accountExpired(false)
+                        .credentialsExpired(false)
+                        .disabled(false)
+                        .accountLocked(false)
+                        .build()
+                );
     }
 }
