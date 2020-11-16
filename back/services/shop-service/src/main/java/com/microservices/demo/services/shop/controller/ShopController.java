@@ -5,6 +5,7 @@ import com.microservices.demo.model.User;
 import com.microservices.demo.services.shop.exception.ProductNotFoundException;
 import com.microservices.demo.services.shop.exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Mono;
@@ -33,6 +36,8 @@ public class ShopController {
     private String productServiceUri;
     @Value("${product.service.params.create}")
     private String productServiceCreateParams;
+    @Value("${encoder.parameter.noop}")
+    private String noopString;
 
     @Autowired
     public RestTemplate restTemplate() {
@@ -46,9 +51,9 @@ public class ShopController {
     }
 
     @GetMapping("/allUsers")
-    public Mono<ResponseEntity<List<User>>> findAllUsers() {
+    public Mono<ResponseEntity<List<User>>> findAllUsers(@AuthenticationPrincipal UserDetails userDetails) {
         String url = "http://localhost:8082/users/allUsers";
-        HttpEntity request = createRequest();
+        HttpEntity request = createRequest(userDetails);
         ResponseEntity<List<User>> users = new RestTemplate().exchange(url, HttpMethod.GET,
                 request, new ParameterizedTypeReference<List<User>>() {});
         log.info("Found " + users.getBody().size() + " users");
@@ -73,8 +78,9 @@ public class ShopController {
         }
     }
 
-    private HttpEntity createRequest() {
-        String authStr = "sophie:pass";
+    private HttpEntity createRequest(UserDetails userDetails) {
+
+        String authStr = userDetails.getUsername() +":" + StringUtils.substringAfter(userDetails.getPassword(), noopString) ;
         String base64Creds = Base64.getEncoder().encodeToString(authStr.getBytes());
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Basic " + base64Creds);
@@ -91,5 +97,4 @@ public class ShopController {
     public ResponseEntity<String> handle(@SuppressWarnings("unused") UserNotFoundException ex) {
         return ResponseEntity.notFound().build();
     }
-
 }
