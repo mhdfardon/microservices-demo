@@ -7,7 +7,6 @@ import com.microservices.demo.services.user.exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,13 +14,10 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.server.ServerRequest;
-import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.security.Principal;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,16 +56,6 @@ public class UserController {
                 });
     }
 
-
-    public Mono<ServerResponse> hello(ServerRequest serverRequest) {
-        return serverRequest.principal()
-                .map(Principal::getName)
-                .flatMap(username ->
-                        ServerResponse.ok()
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .syncBody(Collections.singletonMap("message", "Hello " + username + "!"))
-                );
-    }
 
     @GetMapping("/allUsers")
     public Mono<ResponseEntity<Flux<User>>> findAllUsers() {
