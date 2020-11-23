@@ -28,11 +28,11 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.microservices.demo</groupId>
-            <artifactId>back-test</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.microservices.demo</groupId>-->
+<!--            <artifactId>back-test</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

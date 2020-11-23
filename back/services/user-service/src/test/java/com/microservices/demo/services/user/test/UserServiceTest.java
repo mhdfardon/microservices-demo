@@ -1,7 +1,6 @@
 package com.microservices.demo.services.user.test;
 
 import com.microservices.demo.services.config.AESCipherConfig;
-import com.microservices.demo.services.user.UserServiceApplication;
 import com.microservices.demo.services.service.UserService;
 import com.microservices.demo.services.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -12,15 +11,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {UserServiceApplication.class})
-@ComponentScan(basePackageClasses = {UserServiceApplication.class})
 @Slf4j
 public class UserServiceTest {
 

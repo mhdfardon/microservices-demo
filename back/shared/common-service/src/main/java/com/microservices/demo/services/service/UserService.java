@@ -1,6 +1,7 @@
 package com.microservices.demo.services.service;
 
 import com.microservices.demo.model.User;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface UserService {
